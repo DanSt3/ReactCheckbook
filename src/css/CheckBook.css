@@ -1,0 +1,8 @@
+.checkbook-topframe {
+    width: 745px;
+    margin: 20px auto;
+}
+
+.checkbook-topframe .break {
+    clear: both;
+}

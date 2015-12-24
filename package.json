@@ -1,0 +1,27 @@
+{
+  "name": "react-examples",
+  "version": "1.0.0",
+  "description": "Sample React Example",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "react": "^0.14.3",
+    "react-dom": "^0.14.3"
+  },
+  "devDependencies": {
+    "copy": "^0.1.3",
+    "express": "^4.13.3",
+    "grunt": "^0.4.5",
+    "grunt-browserify": "^4.0.1",
+    "grunt-contrib-clean": "^0.7.0",
+    "grunt-contrib-copy": "^0.8.2",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-express": "^1.4.1",
+    "grunt-react": "^0.12.3",
+    "load-grunt-tasks": "^3.3.0"
+  }
+}

@@ -1,0 +1,251 @@
+@font-face {
+    font-family: MICR;
+    src: url('../fonts/MICR Encoding.ttf') format('truetype');
+}
+
+.check-main {
+    width: 645px;
+    height: 270px;
+    margin: 0 auto;
+    padding: 20px 45px;
+    border: 7px solid #9AAFCD;
+    background-color: #CED3E1;
+    font-family: Arial, Helvetica;
+    font-size: 14px;
+}
+
+.check-name-box {
+    float: left;
+}
+
+.check-name-box p {
+    margin: 0;
+    font-size: 14px;
+}
+
+.check-name-first-line {
+    font-weight: bold;
+}
+
+.check-number-date-box {
+    float: right;
+}
+
+.check-number {
+    float: right;
+    width: 65px;
+    padding-right: 0px;
+    border: 0px;
+    text-align: right;
+    font-size: 150%;
+}
+
+.check-date-box {
+    float: right;
+    padding: 0px;
+    margin-top: 14px;
+    font-size: 12px;
+}
+
+.check-date-box label {
+    position: relative;
+    top: 6px;
+    margin-right: 5px;
+    text-transform: uppercase;
+}
+
+.check-date {
+    float: right;
+    width: 125px;
+    padding: 2px;
+    border: 0px;
+    border-bottom: 1px solid black;
+    font-size: 14px;
+    text-align: center;
+}
+
+
+
+.check-payee-amount-box {
+    margin-top: 27px;
+}
+
+.check-payee-box {
+    float: left;
+    display: inline-block;
+    width: 520px;
+    height: 33px;
+}
+
+.check-payee-label {
+    float: left;
+    position: relative;
+    top: 11px;
+    font-size: 11px;
+    text-transform: uppercase;
+}
+
+.check-payee {
+    float: right;
+    width: 445px;
+    border: 0px;
+    padding: 2px;
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;
+    font-size: 16px;
+    text-align: left;
+}
+
+.check-amount-box {
+    float: right;
+}
+
+.check-amount-label {
+    position: relative;
+    top: 2px;
+    font-size: 20px;
+}
+
+.check-amount {
+    float:right;
+    width: 95px;
+    margin-left: 2px;
+    padding: 2px;
+    border: 0px;
+    font-size: 16px;
+    text-align: right;
+}
+
+
+.check-amount-text-box {
+}
+
+.check-amount-text {
+    width: 518px;
+    margin-top: 5px;
+    padding: 3px;
+    border: 0px;
+    border-bottom: 1px solid black;
+    font-size: 12px;
+    background-color: #CED3E1;
+}
+
+
+.check-amount-text-slash {
+    position: relative;
+    top: 4px;
+    font-size: 20px;
+}
+
+.check-amount-text-label {
+    position: relative;
+    top: 2px;
+    margin-left: 2px;
+    font-size: 13px;
+    text-transform: uppercase;
+}
+
+
+.check-security-box {
+}
+
+
+
+.check-account-box {
+    margin-top: 18px;
+    margin-bottom: 18px;
+    font-size: 13px;
+}
+
+.check-account-box p {
+    margin: 0;
+}
+
+.check-account-name {
+    font-weight: bold;
+}
+
+
+.check-memo-signature-box {
+    display: inline-block;
+    width: 100%;
+}
+
+.check-memo-box {
+    float: left;
+}
+
+.check-memo-label {
+    position: relative;
+    top: 2px;
+    margin-right: 3px;
+    font-size: 11px;
+    text-transform: uppercase;
+}
+
+.check-memo {
+    width: 275px;
+    padding: 2px;
+    border: 0px;
+    border-bottom: 1px solid black;
+    font-size: 14px;
+}
+
+
+.check-signature {
+    float: right;
+    position: relative;
+    width: 250px;
+    bottom: 0px;
+    height: 14px;
+    border: 0px;
+    border-bottom: 1px solid black;
+}
+
+
+.check-acctnum-target-box {
+    margin-top: 10px;
+}
+
+.check-account-number {
+    display: inline;
+    margin-top: 2px;
+    font-family: "MICR";
+    font-size: 20px;
+}
+
+
+.check-target-box {
+    float: right;
+}
+
+.check-target-label {
+    position: relative;
+    margin-right: 4px;
+    font-size: 10px;
+    text-transform: uppercase;
+}
+
+/* This style is needed because Chrome on OS X overrides any select element styling to make
+   it have rounded corners.  So we put a rectangular div of the same color behind the select. */
+.check-target-select-mac-chrome-hack {
+    display: inline-block;
+    float: right;
+    background-color: white;
+    padding-top: 1px;
+}
+
+.check-target{
+    float: right;
+    width: 248px;
+    border: 0px;
+    border-radius: 0px;
+    padding: 1px;
+    font-family: Arial, Helvetica;      /* Chrome forces a font here if we don't override it */
+    font-size: 12px;
+    background-color: white;
+}
+
+.break {
+    clear: both;
+}

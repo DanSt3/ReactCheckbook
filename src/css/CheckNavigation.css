@@ -1,0 +1,26 @@
+.check-navigation {
+    margin: 10px auto;
+}
+
+.check-navigation-left-buttons {
+    float: left;
+}
+
+.check-navigation-right-buttons {
+    float: right;
+}
+
+.check-navigation-left-buttons button,
+.check-navigation-right-buttons button {
+    width: 100px;
+    height: 40px;
+    background-color: lightblue;
+    color: black;
+    font-family: Arial, Helvetica;
+    font-size: 14px;
+}
+
+.check-navigation-btn-divider {
+    display: inline-block;
+    width: 20px;
+}

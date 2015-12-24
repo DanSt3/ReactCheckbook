@@ -1,0 +1,50 @@
+.check-register-table {
+    width: 800px;
+    margin: 35px auto;
+    border-collapse: collapse;
+    font-family: Arial, Helvetica;
+    font-size: 12px;
+}
+
+
+/* Styling that applies to just the header rows */
+th {
+    text-align: center;
+    font-size: 13px;
+}
+
+
+/* Styling that applies to just the data rows */
+.check-register-data-row .check-register-checknum {
+    text-align: center;
+}
+
+.check-register-data-row .check-register-date {
+    text-align: center;
+}
+
+.check-register-data-row .check-register-amount {
+    text-align: right;
+}
+
+.check-register-row-shaded {
+    background-color: silver;
+}
+
+
+
+.check-register-header-row {
+    text-transform: uppercase;
+}
+
+/* All border styling set here */
+.check-register-table,
+.check-register-header-row,
+.check-register-header-row th,
+.check-register-data-row,
+.check-register-data-row td {
+    border: 1px solid black;
+    padding: 2px 3px;
+    font-weight: normal;
+}
+
