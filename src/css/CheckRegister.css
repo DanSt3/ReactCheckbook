@@ -31,6 +31,11 @@ th {
     background-color: silver;
 }
 
+.check-register-row-selected {
+    background-color: royalblue;
+    color: white;
+}
+
 
 
 .check-register-header-row {

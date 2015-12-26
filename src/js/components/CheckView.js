@@ -5,10 +5,14 @@ var ReactDOM = require("react-dom");
 var CheckView = React.createClass({
 
     toDollarFormat: function(amount) {
-        return amount.toFixed(2).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+        if (amount) {
+            return amount.toFixed(2).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+        } else {
+            return;
+        }
     },
 
-    leadingZeros : function(number, size) {
+    leadingZeros: function(number, size) {
         var numberString = number.toString();
         while (numberString.length < size) {
             numberString = "0" + numberString;
@@ -16,18 +20,42 @@ var CheckView = React.createClass({
         return numberString;
     },
 
+    onDataChange: function(propName, event) {
+      this.props.onCheckDataChange(propName, event.target.value);
+    },
+
+    onNumberChange: function(propName, event) {
+        /*TODO: Eventually we'll have a validation function with a RegEx to make sure the entered value is clean */
+        // We could make the associated <input> tag "type=number", but we want the user to be able to enter a blank
+        // here - plus you'll get the "up/down" scroll buttons, which I don't want either.
+        this.props.onCheckDataChange(propName, event.target.value);
+    },
+
+    onCurrencyChange: function(propName, event) {
+        /*TODO: Eventually we'll have a validation function with a RegEx to make sure the entered value is clean */
+        // We could make the associated <input> tag "type=number", but not all browsers support showing commas and
+        // decimal points in number inputs yet - plus you'll get the "up/down" scroll buttons, which I don't want either.
+        this.props.onCheckDataChange(propName, event.target.value);
+    },
+
     render: function() {
 
         var company = this.props.company;
         var account = this.props.account;
-        var checkNum = this.leadingZeros(this.props.defaultCheckNum, 4);
+        var check = this.props.check;
 
+        // Use the passed-in default check number if the current check doesn't have one specified
+        //TODO: This won't work if the user actually enters a blank check number.  Fix this later.
+        var checkNum = (check && check.checkNumber) ? check.checkNumber : this.props.defaultCheckNum;
+        var checkNumString = this.leadingZeros(checkNum, 4);
+
+        // Build the list of target Account select options from the passed in data
         var targetAccts = this.props.targetAccounts.map(function(target){
             return <option value={target.id} key={target.id}>{target.name}</option>
-        })
+        });
 
         return (
-            <div className="check-main">
+            <form className="check-main">
                 <div className="check-name-box">
                     <p className="check-name-first-line">{company.owner}</p>
                     <p>{company.name}</p>
@@ -36,11 +64,13 @@ var CheckView = React.createClass({
                 </div>
 
                 <div className="check-number-date-box">
-                    <input type="text" className="check-number" id="check-number" defaultValue={checkNum} maxLength="5"/>
+                    {/* We could make this tag "type=number", but we want the user to be able to enter a blank here -
+                        plus you'll get the "up/down" scroll buttons, which I don't want either. */}
+                    <input type="text" className="check-number" id="check-number" maxLength="5" value={checkNumString} onChange={this.onNumberChange.bind(this, "checkNumber")}/>
 
                     <div className="check-date-box break">
                         <label htmlFor="check-date">Date</label>
-                        <input type="text" className="check-date" id="check-date" />
+                        <input type="text" className="check-date" id="check-date" value={check.date} onChange={this.onDataChange.bind(this, "date")}/>
                     </div>
                 </div>
 
@@ -49,12 +79,15 @@ var CheckView = React.createClass({
                 <div className="check-payee-amount-box">
                     <div className="check-payee-box">
                         <label className="check-payee-label" htmlFor="check-payee">Pay to the<br/>order of</label>
-                        <input type="text" className="check-payee" id="check-payee" />
+                        <input type="text" className="check-payee" id="check-payee" value={check.payee} onChange={this.onDataChange.bind(this, "payee")}/>
                     </div>
 
                     <div className="check-amount-box">
                         <label className="check-amount-label" htmlFor="check-amount">$</label>
-                        <input type="text" className="check-amount" id="check-amount" />
+                        {/* We could make this tag "type=number", but not all browsers support showing commas and
+                            decimal points in number inputs yet - plus you'll get the "up/down" scroll buttons, which
+                            I don't want either. */}
+                        <input type="text" className="check-amount" id="check-amount" value={check.amount} onChange={this.onCurrencyChange.bind(this, "amount")}/>
                     </div>
 
                     <div className="check-amount-text-box break">
@@ -73,7 +106,7 @@ var CheckView = React.createClass({
                 <div className="check-memo-signature-box">
                     <div className="check-memo-box">
                         <label className="check-memo-label" htmlFor="check-memo">Re</label>
-                        <input type="text" className="check-memo" id="check-memo" />
+                        <input type="text" className="check-memo" id="check-memo" value={check.memo}  onChange={this.onDataChange.bind(this, "memo")}/>
                     </div>
 
                     <div className="check-signature">
@@ -90,14 +123,14 @@ var CheckView = React.createClass({
                         <div className="check-target-select-mac-chrome-hack">
                             {/* This container only needed because Chrome on OS X overrides any select element styling to make
                                 it have rounded corners.  So we put a rectangular div of the same color behind the select. */}
-                            <select className="check-target" id="check-target">
+                            <select className="check-target" id="check-target" value={check.targetID}  onChange={this.onDataChange.bind(this, "targetID")}>
                                 {targetAccts}
                             </select>
                         </div>
                     </div>
                 </div>
 
-            </div>
+            </form>
         )
     }
 
