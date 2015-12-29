@@ -13,7 +13,8 @@
 .check-navigation-left-buttons button,
 .check-navigation-right-buttons button {
     width: 100px;
-    height: 40px;
+    height: 50px;
+    border-radius: 5px;
     background-color: lightblue;
     color: black;
     font-family: Arial, Helvetica;

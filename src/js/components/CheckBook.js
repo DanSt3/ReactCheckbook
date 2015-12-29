@@ -12,6 +12,16 @@ var CheckRegister = require("./CheckRegister.js");
 var CheckBook = React.createClass({
 
 	navActions: null,
+	checks: {
+		nextAvailID: 5,
+		data: [
+			{id: 1, date: "11/28/2015", checkNumber: "1", payee: "Starbucks", amount: 32.15, memo: "Coffee for the team", targetID: 7},
+			{id: 2, date: "12/01/2015", checkNumber: "2", payee: "Google", amount: 1095.18, memo: "AdWords ads for November", targetID: 1},
+			{id: 3, date: "12/01/2015", checkNumber: "3", payee: "Really Big Bank", amount: 45.00, memo: "Checking Fees", targetID: 2},
+			{id: 4, date: "12/10/2015", checkNumber: "4", payee: "Staples", amount: 47.22, memo: "Copier Paper", targetID: 8}
+		]
+	},
+
 
 	getInitialState: function() {
 		return {
@@ -40,20 +50,14 @@ var CheckBook = React.createClass({
 				{id: "7", name: "Meals & Entertainment"},
 				{id: "8", name: "Office Supplies"},
 			],
-			checks: [
-				{id: 1, date: "11/28/2015", checkNumber: "1", payee: "Starbucks", amount: 32.15, memo: "Coffee for the team", targetID: 7},
-				{id: 2, date: "12/01/2015", checkNumber: "2", payee: "Google", amount: 1095.18, memo: "AdWords ads for November", targetID: 1},
-				{id: 3, date: "12/01/2015", checkNumber: "3", payee: "Really Big Bank", amount: 45.00, memo: "Checking Fees", targetID: 2},
-				{id: 4, date: "12/10/2015", checkNumber: "4", payee: "Staples", amount: 47.22, memo: "Copier Paper", targetID: 8},
-			],
-			selectedCheck: {},
-			workingCheck: {}
+			selectedCheck: {id: 0, checkNumber: "5", targetID: 0},
+			workingCheck: {id: 0, checkNumber: "5",targetID: 0}
 		};
 	},
 
 	onNewCheck: function() {
 		// Set an empty check object into both the selected and working checks
-		var emptyCheck = {targetID: -1};
+		var emptyCheck = {id: 0, checkNumber: "5", targetID: 0};
 		this.setState({"selectedCheck": emptyCheck});
 		this.setState({"workingCheck": emptyCheck});
 	},
@@ -88,7 +92,62 @@ var CheckBook = React.createClass({
 		this.setState({"workingCheck": updatedWorkingCheck});
 	},
 
-	onSaveCheck: function() {
+	onSaveWorkingCheck: function() {
+		// (This will get moved into the data store object when I create that)
+
+		// See if there is a row with this ID already in the data array
+		var checkToSave = this.state.workingCheck;
+		var row = -1;
+		for (var index = 0; index < this.checks.data.length; index++) {
+			if (this.checks.data[index].id == checkToSave.id) {
+				row = index;
+				break;
+			}
+		}
+
+		// If this ID already exists, replace the row's data with the edited data
+		if (row != -1) {
+			this.checks.data[row] = checkToSave;
+		} else {
+			// Else the ID isn't in the table, so we'll have to add that
+
+			// If the ID is the default ID, give it the next one available ID
+			if (checkToSave.id === 0) {
+				checkToSave.id = this.checks.nextAvailID++;
+			}
+
+			// Add the data as a new row at the end of the table
+			this.checks.data.push(checkToSave);
+		}
+
+		// Tell the UI to refresh
+		this.setState({});
+	},
+
+	onDeleteCheck: function(idToDelete) {
+		// Find the specified row
+		var rowToDelete = -1;
+		for (var index = 0; index < this.checks.data.length; index++) {
+			if (this.checks.data[index].id == idToDelete) {
+				rowToDelete = index;
+				break;
+			}
+		}
+
+		// If the row has been found
+		if (rowToDelete !== -1) {
+			// If this check is the working check
+			if (this.state.workingCheck.id === idToDelete) {
+				// Clear the working check
+				this.onNewCheck();
+			}
+
+			// Remove this row from the data array
+			this.checks.data.splice(rowToDelete, 1);
+
+			// Tell the UI to refresh
+			this.setState({});
+		}
 	},
 
 
@@ -121,19 +180,21 @@ var CheckBook = React.createClass({
 			this.navActions.onNextCheck = this.onNextCheck;
 			this.navActions.onPrevCheck = this.onPrevCheck;
 			this.navActions.onUndoAll = this.onUndoAll;
-			this.navActions.onSaveCheck = this.onSaveCheck;
+			this.navActions.onSaveWorkingCheck = this.onSaveWorkingCheck;
+			this.navActions.onDeleteCheck = this.onDeleteCheck;
 		}
 
 		return (
 			<div className="checkbook">
 				<div className="checkbook-topframe">
 					<CheckView company={this.state.company} account={this.state.account} targetAccounts={this.state.targetAccounts}
-							   check={this.state.workingCheck} defaultCheckNum="5" onCheckDataChange={this.onWorkingCheckDataChange}/>
+							   check={this.state.workingCheck} onCheckDataChange={this.onWorkingCheckDataChange}/>
 					<CheckNavigation actions={this.navActions}/>
 				</div>
 				<div className="break"></div>
-				<CheckRegister checks={this.state.checks} targetAccounts={this.state.targetAccounts} ref="checkBook"
-							   selectedID={this.state.selectedCheck.id} onCheckSelectedChanged={this.onCheckSelectedChanged}/>
+				<CheckRegister checks={this.checks.data} targetAccounts={this.state.targetAccounts} ref="checkBook"
+							   selectedID={this.state.selectedCheck.id} onCheckSelectedChanged={this.onCheckSelectedChanged}
+							   onDeleteCheck={this.navActions.onDeleteCheck}/>
 			</div>
 		)
 	}

@@ -22,7 +22,7 @@ var CheckNavigation = React.createClass({
     },
 
     onSaveClick: function() {
-        this.props.actions.onSaveCheck();
+        this.props.actions.onSaveWorkingCheck();
     },
 
     render: function() {

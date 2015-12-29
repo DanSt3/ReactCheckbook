@@ -27,6 +27,17 @@ th {
     text-align: right;
 }
 
+.check-register-data-row .check-register-delete {
+    text-align: center;
+}
+
+.check-register-delete-btn {
+    padding-left: 4px;
+    padding-right: 4px;
+    border-radius: 3px;
+    background-color: lightgray;
+}
+
 .check-register-row-shaded {
     background-color: silver;
 }

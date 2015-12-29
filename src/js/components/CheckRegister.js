@@ -13,6 +13,17 @@ var CheckRegister = React.createClass({
         this.props.onCheckSelectedChanged(checkSelected);
     },
 
+	onDeleteClick(check, event) {
+		// Keep the click event from doing a row select after the delete
+		event.stopPropagation();
+
+		// Confirm that the user wants to delete this check - if so, ask the parent to delete it
+		if (confirm("Are you sure you want to delete this check")) {
+			console.log("Delete confirmed!");
+			this.props.onDeleteCheck(check.id);
+		}
+	},
+
     getNextCheck: function (id) {
         var nextCheck = null;
 
@@ -86,6 +97,9 @@ var CheckRegister = React.createClass({
 					<td className="check-register-amount">${that.toDollarFormat(check.amount)}</td>
                     <td className="check-register-target-acct">{(that.props.targetAccounts[check.targetID-1]).name}</td>
 					<td className="check-register-memo">{check.memo}</td>
+					<td className="check-register-delete">
+						<button className="check-register-delete-btn" onClick={that.onDeleteClick.bind(that, check)}>X</button>
+					</td>
 				</tr>
 			);
 		});
@@ -100,6 +114,7 @@ var CheckRegister = React.createClass({
 						<th className="check-register-amount">Amount</th>
 						<th className="check-register-target-acct">Account</th>
 						<th className="check-register-memo">Memo</th>
+						<th className="check-register-delete">Delete?</th>
 					</tr>
 				</thead>
 				<tbody>

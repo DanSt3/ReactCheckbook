@@ -28,14 +28,16 @@ var CheckView = React.createClass({
         /*TODO: Eventually we'll have a validation function with a RegEx to make sure the entered value is clean */
         // We could make the associated <input> tag "type=number", but we want the user to be able to enter a blank
         // here - plus you'll get the "up/down" scroll buttons, which I don't want either.
-        this.props.onCheckDataChange(propName, event.target.value);
+        var newValue = parseFloat(event.target.value);
+        this.props.onCheckDataChange(propName, newValue);
     },
 
     onCurrencyChange: function(propName, event) {
         /*TODO: Eventually we'll have a validation function with a RegEx to make sure the entered value is clean */
         // We could make the associated <input> tag "type=number", but not all browsers support showing commas and
         // decimal points in number inputs yet - plus you'll get the "up/down" scroll buttons, which I don't want either.
-        this.props.onCheckDataChange(propName, event.target.value);
+        var newValue = parseFloat(event.target.value);
+        this.props.onCheckDataChange(propName, newValue);
     },
 
     render: function() {
@@ -43,11 +45,6 @@ var CheckView = React.createClass({
         var company = this.props.company;
         var account = this.props.account;
         var check = this.props.check;
-
-        // Use the passed-in default check number if the current check doesn't have one specified
-        //TODO: This won't work if the user actually enters a blank check number.  Fix this later.
-        var checkNum = (check && check.checkNumber) ? check.checkNumber : this.props.defaultCheckNum;
-        var checkNumString = this.leadingZeros(checkNum, 4);
 
         // Build the list of target Account select options from the passed in data
         var targetAccts = this.props.targetAccounts.map(function(target){
@@ -66,7 +63,7 @@ var CheckView = React.createClass({
                 <div className="check-number-date-box">
                     {/* We could make this tag "type=number", but we want the user to be able to enter a blank here -
                         plus you'll get the "up/down" scroll buttons, which I don't want either. */}
-                    <input type="text" className="check-number" id="check-number" maxLength="5" value={checkNumString} onChange={this.onNumberChange.bind(this, "checkNumber")}/>
+                    <input type="text" className="check-number" id="check-number" maxLength="5" value={check.checkNumber} onChange={this.onNumberChange.bind(this, "checkNumber")}/>
 
                     <div className="check-date-box break">
                         <label htmlFor="check-date">Date</label>
