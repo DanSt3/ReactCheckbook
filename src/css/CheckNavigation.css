@@ -21,6 +21,12 @@
     font-size: 14px;
 }
 
+.check-navigation-left-buttons button:disabled,
+.check-navigation-right-buttons button:disabled {
+    background-color: lightgray;
+    color: gray;
+}
+
 .check-navigation-btn-divider {
     display: inline-block;
     width: 20px;

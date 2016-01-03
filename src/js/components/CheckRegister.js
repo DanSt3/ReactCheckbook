@@ -9,7 +9,7 @@ var CheckRegister = React.createClass({
 		return amount.toFixed(2).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
 	},
 
-	onClick(checkSelected) {
+	onClick(checkSelected, rowIndexSelected) {
         this.props.onCheckSelectedChanged(checkSelected);
     },
 
@@ -72,25 +72,35 @@ var CheckRegister = React.createClass({
         return prevCheck;
     },
 
+	getIsFirstRow: function(id) {
+		// Return true is this is the first row, or if the table is empty
+		return ((this.props.checks.length === 0)  || (this.props.checks[0].id === id));
+	},
+
+	getIsLastRow: function(id) {
+		// Return true is this is the last row, or if the table is empty
+		var lastRowIndex = this.props.checks.length - 1;
+		return ((this.props.checks.length === 0)  || (this.props.checks[lastRowIndex].id === id));
+	},
+
 	render: function() {
 
 		var that = this;
 
-		var rowCounter = 1;
-	    var checkRows = this.props.checks.map(function(check) {
-            // Counter for alternate row shading
-			var evenRow = (rowCounter++ % 2) == 0;
+	    var checkRows = this.props.checks.map(function(check, rowIndex) {
+            // Counter for alternate row shading - remember that row indices start at 0
+			var evenRow = ((rowIndex + 1) % 2) == 0;
 
 			// Determine the class for the each row, based on whether it is selected or is the alternate row or neither
 			// (Using the "classNames" add-on to make things easier)
             var selectedID = that.props.selectedID;
 			var rowClassNames =  classNames("check-register-data-row", {
 				"check-register-row-shaded": evenRow,
-				"check-register-row-selected" : (selectedID != -1) && (check.id == selectedID)
+				"check-register-row-selected": ((check) && (check.id === selectedID))
 			});
 
 			return (
-				<tr className={rowClassNames} key={check.id} onClick={that.onClick.bind(that, check)}>
+				<tr className={rowClassNames} key={check.id} onClick={that.onClick.bind(that, check, rowIndex)}>
 					<td className="check-register-checknum">{check.checkNumber}</td>
 					<td className="check-register-date">{check.date}</td>
 					<td className="check-register-payee">{check.payee}</td>

@@ -51,7 +51,10 @@ var CheckBook = React.createClass({
 				{id: "8", name: "Office Supplies"},
 			],
 			selectedCheck: {id: 0, checkNumber: "5", targetID: 0},
-			workingCheck: {id: 0, checkNumber: "5",targetID: 0}
+			workingCheck: {id: 0, checkNumber: "5",targetID: 0},
+			isFirstRow: true,		// Set first and last rows to true when no check is selected, since "Next" and
+									// "Last" buttons won't make any sense
+			isLastRow: true
 		};
 	},
 
@@ -67,7 +70,7 @@ var CheckBook = React.createClass({
 		// This assumes that check register may have sorted the data, so we can't know what the next check in the
 		// register is without asking.
 		// We could also implement by sending an event and a callback to the check register
-		var nextCheck = this.refs.checkBook.getNextCheck(this.state.selectedCheck.id);
+		var nextCheck = this.refs.checkRegister.getNextCheck(this.state.selectedCheck.id);
 		if (nextCheck) {
 			this.onCheckSelectedChanged(nextCheck);
 		}
@@ -78,7 +81,7 @@ var CheckBook = React.createClass({
 		// This assumes that check register may have sorted the data, so we can't know what the previous check in the
 		// register is without asking.
 		// We could also implement by sending an event and a callback to the check register
-		var prevCheck = this.refs.checkBook.getPreviousCheck(this.state.selectedCheck.id);
+		var prevCheck = this.refs.checkRegister.getPreviousCheck(this.state.selectedCheck.id);
 		if (prevCheck) {
 			this.onCheckSelectedChanged(prevCheck);
 		}
@@ -120,8 +123,8 @@ var CheckBook = React.createClass({
 			this.checks.data.push(checkToSave);
 		}
 
-		// Tell the UI to refresh
-		this.setState({});
+		// Tell the UI that we've changed selection to the new check
+		this.onCheckSelectedChanged(checkToSave);
 	},
 
 	onDeleteCheck: function(idToDelete) {
@@ -150,12 +153,20 @@ var CheckBook = React.createClass({
 		}
 	},
 
-
 	onCheckSelectedChanged: function(newSelection) {
-		this.setState({selectedCheck: newSelection});
-		// Make a copy of the selected check so it can be edited without losing the original data so we can undo the
-		// editing changes if the user desires.
-		this.setState({"workingCheck": update(newSelection, {})});	// Shallow copy is fine here for now
+		// Ask the check register whether this is the first row or the last row
+		var isFirstRow = this.refs.checkRegister.getIsFirstRow(newSelection.id);
+		var isLastRow = this.refs.checkRegister.getIsLastRow(newSelection.id);
+
+		// Set everything about the changed selection into the state in one call
+		this.setState({
+			selectedCheck: newSelection,
+			"workingCheck": update(newSelection, {}),	// Make a copy of the selected check so it can be edited without
+														// losing the original data so we can undo the editing changes
+														// if the user desires.  Shallow copy is fine here for now.
+			"isFirstRow": isFirstRow,
+			"isLastRow": isLastRow
+		});
 	},
 
 	onWorkingCheckDataChange: function(propName, newValue) {
@@ -189,10 +200,10 @@ var CheckBook = React.createClass({
 				<div className="checkbook-topframe">
 					<CheckView company={this.state.company} account={this.state.account} targetAccounts={this.state.targetAccounts}
 							   check={this.state.workingCheck} onCheckDataChange={this.onWorkingCheckDataChange}/>
-					<CheckNavigation actions={this.navActions}/>
+					<CheckNavigation actions={this.navActions} selectedID={this.state.selectedCheck.id} isFirstRow={this.state.isFirstRow} isLastRow={this.state.isLastRow} />
 				</div>
 				<div className="break"></div>
-				<CheckRegister checks={this.checks.data} targetAccounts={this.state.targetAccounts} ref="checkBook"
+				<CheckRegister checks={this.checks.data} targetAccounts={this.state.targetAccounts} ref="checkRegister"
 							   selectedID={this.state.selectedCheck.id} onCheckSelectedChanged={this.onCheckSelectedChanged}
 							   onDeleteCheck={this.navActions.onDeleteCheck}/>
 			</div>
