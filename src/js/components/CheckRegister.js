@@ -117,7 +117,7 @@ var CheckRegister = React.createClass({
 		return (
 			<table className="check-register-table">
 				<thead>
-					<tr className="check-register-header-row check-register-row-shaded">
+					<tr className="check-register-header-row">
 						<th className="check-register-checknum">Number</th>
 						<th className="check-register-date">Date</th>
 						<th className="check-register-payee">Payee</th>
