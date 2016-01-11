@@ -2,16 +2,17 @@
     margin: 10px auto;
 }
 
-.check-navigation-left-buttons {
+/* Using the component's main class to namespace the remaining styles so they don't collide if another component has a
+   style with the same name */
+
+
+.check-navigation .left-buttons {
     float: left;
 }
-
-.check-navigation-right-buttons {
+.check-navigation .right-buttons {
     float: right;
 }
-
-.check-navigation-left-buttons button,
-.check-navigation-right-buttons button {
+.check-navigation button {
     width: 100px;
     height: 50px;
     border-radius: 5px;
@@ -21,12 +22,11 @@
     font-size: 14px;
 }
 
-.check-navigation-left-buttons button:disabled,
-.check-navigation-right-buttons button:disabled {
+.check-navigation button:disabled {
     background-color: lightgray;
 }
 
-.check-navigation-btn-divider {
+.check-navigation .btn-divider {
     display: inline-block;
     width: 20px;
 }

@@ -1,4 +1,4 @@
-.check-register-table {
+.check-register {
     width: 800px;
     margin: 35px auto;
     border-collapse: collapse;
@@ -6,63 +6,60 @@
     font-size: 12px;
 }
 
+/* Using the component's main class to namespace the remaining styles so they don't collide if another component has a
+   style with the same name */
+
 
 /* Styling that applies to just the header rows */
-th {
+.check-register th {
     text-align: center;
     font-size: 13px;
 }
 
-
-/* Styling that applies to just the data rows */
-.check-register-data-row .check-register-checknum {
-    text-align: center;
+.check-register .row-shaded {
+    background-color: cornsilk;
 }
 
-.check-register-data-row .check-register-date {
-    text-align: center;
+.check-register .row-selected {
+    background-color: royalblue;
+    color: white;
 }
 
-.check-register-data-row .check-register-amount {
-    text-align: right;
+.check-register .header-row {
+    text-transform: uppercase;
+    background-color: #CED3E1;
+    color: black;
 }
 
-.check-register-data-row .check-register-delete {
-    text-align: center;
-}
-
-.check-register-delete-btn {
+.check-register .delete-btn {
     padding-left: 4px;
     padding-right: 4px;
     border-radius: 3px;
     background-color: papayawhip;
 }
 
-.check-register-row-shaded {
-    background-color: cornsilk;
-}
-
-.check-register-row-selected {
-    background-color: royalblue;
-    color: white;
-}
-
-
-
-.check-register-header-row {
-    text-transform: uppercase;
-    background-color: #CED3E1;
-    color: black;
-}
 
 /* All border styling set here */
-.check-register-table,
-.check-register-header-row,
-.check-register-header-row th,
-.check-register-data-row,
-.check-register-data-row td {
+.check-register
+.check-register .header-row,
+.check-register .header-row th,
+.check-register .data-row,
+.check-register .data-row td {
     border: 1px solid black;
     padding: 2px 3px;
     font-weight: normal;
+}
+
+
+.check-register .left-text {
+    /* Nothing - just the defaults */
+}
+
+.check-register .center-text {
+    text-align: center;
+}
+
+.check-register .right-text {
+    text-align: right;
 }
 

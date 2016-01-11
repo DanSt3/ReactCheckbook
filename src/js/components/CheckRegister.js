@@ -94,37 +94,37 @@ var CheckRegister = React.createClass({
 			// Determine the class for the each row, based on whether it is selected or is the alternate row or neither
 			// (Using the "classNames" add-on to make things easier)
             var selectedID = that.props.selectedID;
-			var rowClassNames =  classNames("check-register-data-row", {
-				"check-register-row-shaded": evenRow,
-				"check-register-row-selected": ((check) && (check.id === selectedID))
+			var rowClassNames =  classNames("data-row", {
+				"row-shaded": evenRow,
+				"row-selected": ((check) && (check.id === selectedID))
 			});
 
 			return (
 				<tr className={rowClassNames} key={check.id} onClick={that.onClick.bind(that, check, rowIndex)}>
-					<td className="check-register-checknum">{check.checkNumber}</td>
-					<td className="check-register-date">{check.date}</td>
-					<td className="check-register-payee">{check.payee}</td>
-					<td className="check-register-amount">${that.toDollarFormat(check.amount)}</td>
-                    <td className="check-register-target-acct">{(that.props.targetAccounts[check.targetID-1]).name}</td>
-					<td className="check-register-memo">{check.memo}</td>
-					<td className="check-register-delete">
-						<button className="check-register-delete-btn" onClick={that.onDeleteClick.bind(that, check)}>X</button>
+					<td className="center-text">{check.checkNumber}</td>
+					<td className="center-text">{check.date}</td>
+					<td className="left-text">{check.payee}</td>
+					<td className="right-text">${that.toDollarFormat(check.amount)}</td>
+                    <td className="left-text">{(that.props.targetAccounts[check.targetID-1]).name}</td>
+					<td className="left-text">{check.memo}</td>
+					<td className="center-text">
+						<button className="delete-btn" onClick={that.onDeleteClick.bind(that, check)}>X</button>
 					</td>
 				</tr>
 			);
 		});
 
 		return (
-			<table className="check-register-table">
+			<table className="check-register">
 				<thead>
-					<tr className="check-register-header-row">
-						<th className="check-register-checknum">Number</th>
-						<th className="check-register-date">Date</th>
-						<th className="check-register-payee">Payee</th>
-						<th className="check-register-amount">Amount</th>
-						<th className="check-register-target-acct">Account</th>
-						<th className="check-register-memo">Memo</th>
-						<th className="check-register-delete">Delete?</th>
+					<tr className="header-row">
+						<th>Number</th>
+						<th>Date</th>
+						<th>Payee</th>
+						<th>Amount</th>
+						<th>Account</th>
+						<th>Memo</th>
+						<th>Delete?</th>
 					</tr>
 				</thead>
 				<tbody>

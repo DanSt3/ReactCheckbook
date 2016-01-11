@@ -1,8 +1,14 @@
-.checkbook-topframe {
+
+/* Using the component's main class to namespace the remaining styles so they don't collide if another component has a
+   style with the same name */
+
+
+.checkbook .checkbook-topframe {
     width: 745px;
     margin: 20px auto;
 }
 
-.checkbook-topframe .break {
+
+.checkbook .break {
     clear: both;
 }

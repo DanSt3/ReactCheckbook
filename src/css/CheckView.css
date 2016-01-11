@@ -14,24 +14,28 @@
     font-size: 14px;
 }
 
-.check-name-box {
+/* Using the component's main class to namespace the remaining styles so they don't collide if another component has a
+   style with the same name */
+
+
+.check-main .check-name-box {
     float: left;
 }
 
-.check-name-box p {
+.check-main .check-name-box p {
     margin: 0;
     font-size: 14px;
 }
 
-.check-name-first-line {
+.check-main .check-name-first-line {
     font-weight: bold;
 }
 
-.check-number-date-box {
+.check-main .check-number-date-box {
     float: right;
 }
 
-.check-number {
+.check-main .check-number {
     float: right;
     width: 65px;
     padding-right: 0px;
@@ -40,21 +44,21 @@
     font-size: 150%;
 }
 
-.check-date-box {
+.check-main .check-date-box {
     float: right;
     padding: 0px;
     margin-top: 14px;
     font-size: 12px;
 }
 
-.check-date-box label {
+.check-main .check-date-box label {
     position: relative;
     top: 6px;
     margin-right: 5px;
     text-transform: uppercase;
 }
 
-.check-date {
+.check-main .check-date {
     float: right;
     width: 125px;
     padding: 2px;
@@ -66,18 +70,18 @@
 
 
 
-.check-payee-amount-box {
+.check-main .check-payee-amount-box {
     margin-top: 27px;
 }
 
-.check-payee-box {
+.check-main .check-payee-box {
     float: left;
     display: inline-block;
     width: 520px;
     height: 33px;
 }
 
-.check-payee-label {
+.check-main .check-payee-label {
     float: left;
     position: relative;
     top: 11px;
@@ -85,7 +89,7 @@
     text-transform: uppercase;
 }
 
-.check-payee {
+.check-main .check-payee {
     float: right;
     width: 445px;
     border: 0px;
@@ -96,17 +100,17 @@
     text-align: left;
 }
 
-.check-amount-box {
+.check-main .check-amount-box {
     float: right;
 }
 
-.check-amount-label {
+.check-main .check-amount-label {
     position: relative;
     top: 2px;
     font-size: 20px;
 }
 
-.check-amount {
+.check-main .check-amount {
     float:right;
     width: 95px;
     margin-left: 2px;
@@ -117,10 +121,10 @@
 }
 
 
-.check-amount-text-box {
+.check-main .check-amount-text-box {
 }
 
-.check-amount-text {
+.check-main .check-amount-text {
     width: 518px;
     margin-top: 5px;
     padding: 3px;
@@ -131,13 +135,13 @@
 }
 
 
-.check-amount-text-slash {
+.check-main .check-amount-text-slash {
     position: relative;
     top: 4px;
     font-size: 20px;
 }
 
-.check-amount-text-label {
+.check-main .check-amount-text-label {
     position: relative;
     top: 2px;
     margin-left: 2px;
@@ -146,36 +150,32 @@
 }
 
 
-.check-security-box {
-}
 
-
-
-.check-account-box {
+.check-main .check-account-box {
     margin-top: 18px;
     margin-bottom: 18px;
     font-size: 13px;
 }
 
-.check-account-box p {
+.check-main .check-account-box p {
     margin: 0;
 }
 
-.check-account-name {
+.check-main .check-account-name {
     font-weight: bold;
 }
 
 
-.check-memo-signature-box {
+.check-main .check-memo-signature-box {
     display: inline-block;
     width: 100%;
 }
 
-.check-memo-box {
+.check-main .check-memo-box {
     float: left;
 }
 
-.check-memo-label {
+.check-main .check-memo-label {
     position: relative;
     top: 2px;
     margin-right: 3px;
@@ -183,7 +183,7 @@
     text-transform: uppercase;
 }
 
-.check-memo {
+.check-main .check-memo {
     width: 275px;
     padding: 2px;
     border: 0px;
@@ -192,7 +192,7 @@
 }
 
 
-.check-signature {
+.check-main .check-signature {
     float: right;
     position: relative;
     width: 250px;
@@ -203,11 +203,11 @@
 }
 
 
-.check-acctnum-target-box {
+.check-main .check-acctnum-target-box {
     margin-top: 10px;
 }
 
-.check-account-number {
+.check-main .check-account-number {
     display: inline;
     margin-top: 2px;
     font-family: "MICR";
@@ -215,11 +215,11 @@
 }
 
 
-.check-target-box {
+.check-main .check-target-box {
     float: right;
 }
 
-.check-target-label {
+.check-main .check-target-label {
     position: relative;
     margin-right: 4px;
     font-size: 10px;
@@ -228,14 +228,14 @@
 
 /* This style is needed because Chrome on OS X overrides any select element styling to make
    it have rounded corners.  So we put a rectangular div of the same color behind the select. */
-.check-target-select-mac-chrome-hack {
+.check-main .check-target-select-mac-chrome-hack {
     display: inline-block;
     float: right;
     background-color: white;
     padding-top: 1px;
 }
 
-.check-target{
+.check-main .check-target {
     float: right;
     width: 248px;
     border: 0px;
@@ -246,6 +246,6 @@
     background-color: white;
 }
 
-.break {
+.check-main .break {
     clear: both;
 }

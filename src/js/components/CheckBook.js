@@ -200,9 +200,10 @@ var CheckBook = React.createClass({
 				<div className="checkbook-topframe">
 					<CheckView company={this.state.company} account={this.state.account} targetAccounts={this.state.targetAccounts}
 							   check={this.state.workingCheck} onCheckDataChange={this.onWorkingCheckDataChange}/>
-					<CheckNavigation actions={this.navActions} selectedID={this.state.selectedCheck.id} isFirstRow={this.state.isFirstRow} isLastRow={this.state.isLastRow} />
+					<CheckNavigation actions={this.navActions} selectedID={this.state.selectedCheck.id}
+									 isFirstRow={this.state.isFirstRow} isLastRow={this.state.isLastRow} />
+					<div className="break"></div>
 				</div>
-				<div className="break"></div>
 				<CheckRegister checks={this.checks.data} targetAccounts={this.state.targetAccounts} ref="checkRegister"
 							   selectedID={this.state.selectedCheck.id} onCheckSelectedChanged={this.onCheckSelectedChanged}
 							   onDeleteCheck={this.navActions.onDeleteCheck}/>
