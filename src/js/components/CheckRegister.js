@@ -2,6 +2,7 @@
 var React = require("react");
 var ReactDOM = require("react-dom");
 var classNames = require("classnames");
+var Confirm = require("./Confirm.js");
 
 var CheckRegister = React.createClass({
 
@@ -18,13 +19,15 @@ var CheckRegister = React.createClass({
 		event.stopPropagation();
 
 		// Confirm that the user wants to delete this check - if so, ask the parent to delete it
-		if (confirm("Are you sure you want to delete this check")) {
+        this.refs.confirm.showConfirm(this.props.onDeleteCheck.bind(null, check.id));
+
+/*		if (confirm("Are you sure you want to delete this check")) {
 			console.log("Delete confirmed!");
 			this.props.onDeleteCheck(check.id);
-		}
+		}*/
 	},
 
-    getNextCheck: function (id) {
+    getNextCheck: function(id) {
         var nextCheck = null;
 
         var checks = this.props.checks;
@@ -48,7 +51,7 @@ var CheckRegister = React.createClass({
         return nextCheck;
     },
 
-    getPreviousCheck: function (id) {
+    getPreviousCheck: function(id) {
         var prevCheck = null;
 
         var checks = this.props.checks;
@@ -115,22 +118,25 @@ var CheckRegister = React.createClass({
 		});
 
 		return (
-			<table className="check-register">
-				<thead>
-					<tr className="header-row">
-						<th>Number</th>
-						<th>Date</th>
-						<th>Payee</th>
-						<th>Amount</th>
-						<th>Account</th>
-						<th>Memo</th>
-						<th>Delete?</th>
-					</tr>
-				</thead>
-				<tbody>
-					{checkRows}
-				</tbody>
-			</table>
+			<div>
+				<table className="check-register">
+					<thead>
+						<tr className="header-row">
+							<th>Number</th>
+							<th>Date</th>
+							<th>Payee</th>
+							<th>Amount</th>
+							<th>Account</th>
+							<th>Memo</th>
+							<th>Delete?</th>
+						</tr>
+					</thead>
+					<tbody>
+						{checkRows}
+					</tbody>
+				</table>
+				<Confirm ref="confirm" bannerText="Confirmation" msgText="Are you sure you want to delete this row?" />
+			</div>
 		)
 	}
 

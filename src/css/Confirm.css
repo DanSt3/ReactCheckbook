@@ -1,0 +1,43 @@
+.modal-content .banner {
+    height: 25px;
+    padding-top: 5px;
+    padding-left: 16px;
+    background-color: dodgerblue;
+    color: white;
+    font-family: Arial, Helevtica;
+    font-size: 15px;
+}
+
+.modal-content .msg-text {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    margin-left: 15px;
+    font-family: Arial, Helevtica;
+    font-size: 18px;
+}
+
+.modal-content .btn-box {
+    float: right;
+    margin: 0 10px;
+}
+
+.modal-content button {
+    width: 65px;
+    height: 30px;
+    margin: 0 5px;
+    font-family: Arial, Helevtica;
+    font-size: 14px;
+    border-radius: 5px;
+    border: 0px;
+    background-color: white;
+}
+
+.modal-content .cancel-btn {
+    background-color: goldenrod;
+    color: white;
+}
+
+.modal-content .ok-btn {
+    background-color: #449D44;
+    color: white;
+}
