@@ -1,5 +1,5 @@
 .check-navigation {
-    margin: 10px auto;
+    margin: 15px auto;
 }
 
 /* Using the component's main class to namespace the remaining styles so they don't collide if another component has a
@@ -13,8 +13,9 @@
     float: right;
 }
 .check-navigation button {
-    width: 100px;
+    width: 110px;
     height: 50px;
+    border: 0px;
     border-radius: 5px;
     background-color: royalblue;
     color: white;

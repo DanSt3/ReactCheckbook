@@ -4,6 +4,7 @@
     border-collapse: collapse;
     font-family: Arial, Helvetica;
     font-size: 12px;
+    border-radius: 5px;
 }
 
 /* Using the component's main class to namespace the remaining styles so they don't collide if another component has a
@@ -34,6 +35,7 @@
 .check-register .delete-btn {
     padding-left: 4px;
     padding-right: 4px;
+    border: 1px solid #DDDDDD;
     border-radius: 3px;
     background-color: papayawhip;
 }
@@ -45,7 +47,7 @@
 .check-register .header-row th,
 .check-register .data-row,
 .check-register .data-row td {
-    border: 1px solid black;
+    border: 1px solid #DDDDDD;
     padding: 2px 3px;
     font-weight: normal;
 }
