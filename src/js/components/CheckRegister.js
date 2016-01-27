@@ -6,6 +6,8 @@ var Confirm = require("./Confirm.js");
 
 var CheckRegister = React.createClass({
 
+    runningBalance: 0.0,
+
 	toDollarFormat: function(amount) {
 		return amount.toFixed(2).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
 	},
@@ -89,8 +91,12 @@ var CheckRegister = React.createClass({
 	render: function() {
 
 		var that = this;
+        this.runningBalance = this.props.account.openingBalance;
 
 	    var checkRows = this.props.checks.map(function(check, rowIndex) {
+            that.runningBalance -= check.amount;
+            var newBalance = that.runningBalance;
+
             // Counter for alternate row shading - remember that row indices start at 0
 			var evenRow = ((rowIndex + 1) % 2) == 0;
 
@@ -108,8 +114,9 @@ var CheckRegister = React.createClass({
 					<td className="center-text">{check.date}</td>
 					<td className="left-text">{check.payee}</td>
 					<td className="right-text">${that.toDollarFormat(check.amount)}</td>
-                    <td className="left-text">{(that.props.targetAccounts[check.targetID-1]).name}</td>
+                    <td className="left-text">{(that.props.targetAccounts[check.targetID]).name}</td>
 					<td className="left-text">{check.memo}</td>
+                    <td className="right-text">${that.toDollarFormat(newBalance)}</td>
 					<td className="center-text">
 						<button className="delete-btn" onClick={that.onDeleteClick.bind(that, check)}>X</button>
 					</td>
@@ -128,6 +135,7 @@ var CheckRegister = React.createClass({
 							<th>Amount</th>
 							<th>Account</th>
 							<th>Memo</th>
+                            <th>Balance</th>
 							<th>Delete?</th>
 						</tr>
 					</thead>

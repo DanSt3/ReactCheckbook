@@ -15,10 +15,10 @@ var CheckBook = React.createClass({
 	checks: {
 		nextAvailID: 5,
 		data: [
-			{id: 1, date: "11/28/2015", checkNumber: "1", payee: "Starbucks", amount: 32.15, memo: "Coffee for the team", targetID: 7},
-			{id: 2, date: "12/01/2015", checkNumber: "2", payee: "Google", amount: 1095.18, memo: "AdWords ads for November", targetID: 1},
-			{id: 3, date: "12/01/2015", checkNumber: "3", payee: "Really Big Bank", amount: 45.00, memo: "Checking Fees", targetID: 2},
-			{id: 4, date: "12/10/2015", checkNumber: "4", payee: "Staples", amount: 47.22, memo: "Copier Paper", targetID: 8}
+			{id: 1, date: "11/28/2015", checkNumber: "1", payee: "Starbucks", amount: 32.15, memo: "Coffee for the team", targetID: 6},
+			{id: 2, date: "12/01/2015", checkNumber: "2", payee: "Google", amount: 1095.18, memo: "AdWords ads for November", targetID: 0},
+			{id: 3, date: "12/01/2015", checkNumber: "3", payee: "Really Big Bank", amount: 45.00, memo: "Checking Fees", targetID: 1},
+			{id: 4, date: "12/10/2015", checkNumber: "4", payee: "Staples", amount: 47.22, memo: "Copier Paper", targetID: 7}
 		]
 	},
 
@@ -38,20 +38,22 @@ var CheckBook = React.createClass({
                 address: "9876 Elm Street",
                 city: "San Francisco",
                 state: "CA",
-                zip: "23456-1234"
+                zip: "23456-1234",
+				openingBalance: 3500.0
             },
 			targetAccounts: [
-				{id: "1", name: "Advertising"},
-				{id: "2", name: "Bank Charges"},
-				{id: "3", name: "Commissions & Fees"},
-				{id: "4", name: "Disposal Fees"},
-				{id: "5", name: "Dues & Subscriptions"},
-				{id: "6", name: "Insurance"},
-				{id: "7", name: "Meals & Entertainment"},
-				{id: "8", name: "Office Supplies"},
+				{id: "0", name: "Advertising"},
+				{id: "1", name: "Bank Charges"},
+				{id: "2", name: "Commissions & Fees"},
+				{id: "3", name: "Disposal Fees"},
+				{id: "4", name: "Dues & Subscriptions"},
+				{id: "5", name: "Insurance"},
+				{id: "6", name: "Meals & Entertainment"},
+				{id: "7", name: "Office Supplies"},
 			],
 			selectedCheck: {id: 0, checkNumber: "5", targetID: 0},
 			workingCheck: {id: 0, checkNumber: "5",targetID: 0},
+			workingCheckDirty: false,
 			isFirstRow: true,		// Set first and last rows to true when no check is selected, since "Next" and
 									// "Last" buttons won't make any sense
 			isLastRow: true
@@ -59,11 +61,14 @@ var CheckBook = React.createClass({
 	},
 
 	onNewCheck: function() {
-		// Set an empty check object into both the selected and working checks
-		var emptyCheck = {id: 0, checkNumber: "5", targetID: 0};
-		this.setState({"selectedCheck": emptyCheck});
-		this.setState({"workingCheck": emptyCheck});
-	},
+        // Set an empty check object into both the selected and working checks
+        var emptyCheck = {id: 0, checkNumber: "5", targetID: 0};
+        this.setState({
+            "selectedCheck": emptyCheck,
+            "workingCheck": emptyCheck,
+            "workingCheckDirty": false
+        });
+    },
 
 	onNextCheck: function() {
 		// Ask the check register for the next check
@@ -92,7 +97,10 @@ var CheckBook = React.createClass({
 		var updatedWorkingCheck = update(this.state.selectedCheck, {});
 
 		// Tell the world that the working copy of the check has changed
-		this.setState({"workingCheck": updatedWorkingCheck});
+		this.setState({
+            "workingCheck": updatedWorkingCheck,
+            "workingCheckDirty": false
+        });
 	},
 
 	onSaveWorkingCheck: function() {
@@ -164,6 +172,7 @@ var CheckBook = React.createClass({
 			"workingCheck": update(newSelection, {}),	// Make a copy of the selected check so it can be edited without
 														// losing the original data so we can undo the editing changes
 														// if the user desires.  Shallow copy is fine here for now.
+			"workingCheckDirty": false,
 			"isFirstRow": isFirstRow,
 			"isLastRow": isLastRow
 		});
@@ -179,7 +188,10 @@ var CheckBook = React.createClass({
 		var updatedWorkingCheck = update(this.state.workingCheck, {$merge: propChange});
 
 		// Tell the world that the working copy of the check has changed
-		this.setState({"workingCheck": updatedWorkingCheck});
+		this.setState({
+			"workingCheck": updatedWorkingCheck,
+			"workingCheckDirty": true
+		});
 	},
 
 	render: function() {
@@ -201,11 +213,13 @@ var CheckBook = React.createClass({
 					<CheckView company={this.state.company} account={this.state.account} targetAccounts={this.state.targetAccounts}
 							   check={this.state.workingCheck} onCheckDataChange={this.onWorkingCheckDataChange}/>
 					<CheckNavigation actions={this.navActions} selectedID={this.state.selectedCheck.id}
-									 isFirstRow={this.state.isFirstRow} isLastRow={this.state.isLastRow} />
+									 checkDirty={this.state.workingCheckDirty} isFirstRow={this.state.isFirstRow}
+									 isLastRow={this.state.isLastRow} />
 					<div className="break"></div>
 				</div>
-				<CheckRegister checks={this.checks.data} targetAccounts={this.state.targetAccounts} ref="checkRegister"
-							   selectedID={this.state.selectedCheck.id} onCheckSelectedChanged={this.onCheckSelectedChanged}
+				<CheckRegister checks={this.checks.data} targetAccounts={this.state.targetAccounts} account={this.state.account}
+					           ref="checkRegister" selectedID={this.state.selectedCheck.id}
+							   onCheckSelectedChanged={this.onCheckSelectedChanged}
 							   onDeleteCheck={this.navActions.onDeleteCheck}/>
 			</div>
 		)

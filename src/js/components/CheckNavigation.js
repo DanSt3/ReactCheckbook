@@ -33,12 +33,15 @@ var CheckNavigation = React.createClass({
                 <div className="left-buttons">
                     <button id="check-navigation-new" onClick={this.onNewClick}>New Check</button>
                     <div className="btn-divider"></div>
-                    <button id="check-navigation-next" disabled={this.props.isLastRow || !isCheckSelected} onClick={this.onNextClick}>Next</button>
+                    <button id="check-navigation-next" disabled={this.props.isLastRow || !isCheckSelected}
+                            onClick={this.onNextClick}>Next</button>
                     <div className="btn-divider"></div>
-                    <button id="check-navigation-previous" disabled={this.props.isFirstRow || !isCheckSelected} onClick={this.onPrevClick}>Previous</button>
+                    <button id="check-navigation-previous" disabled={this.props.isFirstRow || !isCheckSelected}
+                            onClick={this.onPrevClick}>Previous</button>
                 </div>
                 <div  className="right-buttons">
-                    <button id="check-navigation-undo-all" onClick={this.onUndoAllClick}>Undo Changes</button>
+                    <button id="check-navigation-undo-all" disabled={!this.props.checkDirty}
+                            onClick={this.onUndoAllClick}>Undo Changes</button>
                     <div className="btn-divider"></div>
                     <button id="check-navigation-save" onClick={this.onSaveClick}>Save Changes</button>
                 </div>
