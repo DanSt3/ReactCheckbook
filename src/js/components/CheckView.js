@@ -2,6 +2,8 @@
 var React = require("react");
 var ReactDOM = require("react-dom");
 
+var CurrencyInput = require("./CurrencyInput");
+
 var CheckView = React.createClass({
 
     toDollarFormat: function(amount) {
@@ -32,12 +34,8 @@ var CheckView = React.createClass({
         this.props.onCheckDataChange(propName, newValue);
     },
 
-    onCurrencyChange: function(propName, event) {
-        /*TODO: Eventually we'll have a validation function with a RegEx to make sure the entered value is clean */
-        // We could make the associated <input> tag "type=number", but not all browsers support showing commas and
-        // decimal points in number inputs yet - plus you'll get the "up/down" scroll buttons, which I don't want either.
-        var newValue = parseFloat(event.target.value);
-        this.props.onCheckDataChange(propName, newValue);
+    onCurrencyChange: function(propName, newValue) {
+         this.props.onCheckDataChange(propName, newValue);
     },
 
     render: function() {
@@ -84,7 +82,9 @@ var CheckView = React.createClass({
                         {/* We could make this tag "type=number", but not all browsers support showing commas and
                             decimal points in number inputs yet - plus you'll get the "up/down" scroll buttons, which
                             I don't want either. */}
-                        <input type="text" className="check-amount" id="check-amount" value={check.amount} onChange={this.onCurrencyChange.bind(this, "amount")}/>
+                        <CurrencyInput type="text" className="check-amount" id="check-amount" value={check.amount}
+                                       allowNegatives={false} maxDecimalPlaces={3} maxValue={9999.999}
+                                       onChange={this.onCurrencyChange.bind(this, "amount")}/>
                     </div>
 
                     <div className="check-amount-text-box break">
