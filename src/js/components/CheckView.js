@@ -1,44 +1,44 @@
-/** @jsx React.DOM */
-var React = require("react");
-var ReactDOM = require("react-dom");
+import React, { Component } from "react";
+import ReactDOM from "react-dom";
 
-var CurrencyInput = require("./CurrencyInput");
+import CurrencyInput  from "./CurrencyInput";
 
-var CheckView = React.createClass({
 
-    toDollarFormat: function(amount) {
+export default class CheckView extends Component {
+
+    toDollarFormat(amount) {
         if (amount) {
             return amount.toFixed(2).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
         } else {
             return;
         }
-    },
+    }
 
-    leadingZeros: function(number, size) {
+    leadingZeros(number, size) {
         var numberString = number.toString();
         while (numberString.length < size) {
             numberString = "0" + numberString;
         }
         return numberString;
-    },
+    }
 
-    onDataChange: function(propName, event) {
+    onDataChange(propName, event) {
       this.props.onCheckDataChange(propName, event.target.value);
-    },
+    }
 
-    onNumberChange: function(propName, event) {
+    onNumberChange(propName, event) {
         /*TODO: Eventually we'll have a validation function with a RegEx to make sure the entered value is clean */
         // We could make the associated <input> tag "type=number", but we want the user to be able to enter a blank
         // here - plus you'll get the "up/down" scroll buttons, which I don't want either.
         var newValue = parseFloat(event.target.value);
         this.props.onCheckDataChange(propName, newValue);
-    },
+    }
 
-    onCurrencyChange: function(propName, newValue) {
-         this.props.onCheckDataChange(propName, newValue);
-    },
+    onCurrencyChange(propName, newValue) {
+         this.props.onCheckDataChange(propName, Number(newValue));
+    }
 
-    render: function() {
+    render() {
 
         var company = this.props.company;
         var account = this.props.account;
@@ -131,6 +131,5 @@ var CheckView = React.createClass({
         )
     }
 
-});
+};
 
-module.exports = CheckView;

@@ -1,31 +1,41 @@
-/** @jsx React.DOM */
-var React = require("react");
-var ReactDOM = require("react-dom");
+import React, { Component } from "react";
+import ReactDOM from "react-dom";
 
 
-var CheckNavigation = React.createClass({
+export default class CheckNavigation extends Component {
 
-    onNewClick: function() {
+    constructor() {
+        super();
+
+        // Manually bind the event handlers to this object, as ES6 classes won't automatically do this yet
+        this.onNewClick = this.onNewClick.bind(this);
+        this.onNextClick = this.onNextClick.bind(this);
+        this.onPrevClick = this.onPrevClick.bind(this);
+        this.onUndoAllClick = this.onUndoAllClick.bind(this);
+        this.onSaveClick = this.onSaveClick.bind(this);
+    }
+
+    onNewClick() {
         this.props.actions.onNewCheck();
-    },
+    }
 
-    onNextClick: function() {
+    onNextClick() {
         this.props.actions.onNextCheck();
-    },
+    }
 
-    onPrevClick: function() {
+    onPrevClick() {
         this.props.actions.onPrevCheck();
-    },
+    }
 
-    onUndoAllClick: function() {
+    onUndoAllClick() {
         this.props.actions.onUndoAll();
-    },
+    }
 
-    onSaveClick: function() {
+    onSaveClick() {
         this.props.actions.onSaveWorkingCheck();
-    },
+    }
 
-    render: function() {
+    render() {
         var isCheckSelected = this.props.selectedID > 0;
 
         return (
@@ -49,6 +59,5 @@ var CheckNavigation = React.createClass({
         )
     }
 
-});
+};
 
-module.exports = CheckNavigation;

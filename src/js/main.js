@@ -1,10 +1,16 @@
-/** @jsx React.DOM */
-var React = require("react");
-var ReactDOM = require("react-dom");
+import React, { Component } from "react"
+import ReactDOM from "react-dom"
 
-var CheckBook = require("./components/CheckBook.js");
+import CheckBook from "./components/CheckBook.js"
 
-ReactDOM.render(
-	<CheckBook />,
-	document.getElementById("main")
-);
+
+class App extends Component {
+	render() {
+		return (
+			<CheckBook />
+		);
+	}
+};
+
+
+ReactDOM.render(<App />, document.getElementById('main'));

@@ -1,30 +1,29 @@
-/** @jsx React.DOM */
-var React = require("react");
-var ReactDOM = require("react-dom");
-var update = require("react-addons-update");
+import React, { Component } from "react"
+import ReactDOM from "react-dom"
+import update from "react-addons-update";
 
 
-var CheckView = require("./CheckView.js");
-var CheckNavigation = require("./CheckNavigation.js");
-var CheckRegister = require("./CheckRegister.js");
+import CheckView from "./CheckView.js";
+import CheckNavigation from "./CheckNavigation.js";
+import CheckRegister from "./CheckRegister.js";
 
 
-var CheckBook = React.createClass({
+export default class CheckBook extends Component {
 
-	navActions: null,
-	checks: {
-		nextAvailID: 5,
-		data: [
-			{id: 1, date: "11/28/2015", checkNumber: "1", payee: "Starbucks", amount: 32.15, memo: "Coffee for the team", targetID: 6},
-			{id: 2, date: "12/01/2015", checkNumber: "2", payee: "Google", amount: 1095.18, memo: "AdWords ads for November", targetID: 0},
-			{id: 3, date: "12/01/2015", checkNumber: "3", payee: "Really Big Bank", amount: 45.00, memo: "Checking Fees", targetID: 1},
-			{id: 4, date: "12/10/2015", checkNumber: "4", payee: "Staples", amount: 47.22, memo: "Copier Paper", targetID: 7}
-		]
-	},
+	constructor() {
+		super();
+		this.navActions = null;
+		this.checks = {
+			nextAvailID: 5,
+				data: [
+				{id: 1, date: "11/28/2015", checkNumber: "1", payee: "Starbucks", amount: 32.15, memo: "Coffee for the team", targetID: 6},
+				{id: 2, date: "12/01/2015", checkNumber: "2", payee: "Google", amount: 1095.18, memo: "AdWords ads for November", targetID: 0},
+				{id: 3, date: "12/01/2015", checkNumber: "3", payee: "Really Big Bank", amount: 45.00, memo: "Checking Fees", targetID: 1},
+				{id: 4, date: "12/10/2015", checkNumber: "4", payee: "Staples", amount: 47.22, memo: "Copier Paper", targetID: 7}
+			]
+		};
 
-
-	getInitialState: function() {
-		return {
+		this.state = {
 			company: {
 				name: "Sky Magic Productions",
 				owner: "Dan Steinberg",
@@ -33,14 +32,14 @@ var CheckBook = React.createClass({
 				state: "CA",
 				zip: "12345-1111"
 			},
-            account: {
-                name: "Really Big Bank",
-                address: "9876 Elm Street",
-                city: "San Francisco",
-                state: "CA",
-                zip: "23456-1234",
+			account: {
+				name: "Really Big Bank",
+				address: "9876 Elm Street",
+				city: "San Francisco",
+				state: "CA",
+				zip: "23456-1234",
 				openingBalance: 3500.0
-            },
+			},
 			targetAccounts: [
 				{id: "0", name: "Advertising"},
 				{id: "1", name: "Bank Charges"},
@@ -58,9 +57,28 @@ var CheckBook = React.createClass({
 									// "Last" buttons won't make any sense
 			isLastRow: true
 		};
-	},
 
-	onNewCheck: function() {
+		// Manually bind the event handlers to this object, as ES6 classes won't automatically do this yet
+		this.onNewCheck = this.onNewCheck.bind(this);
+		this.onNextCheck = this.onNextCheck.bind(this);
+		this.onPrevCheck = this.onPrevCheck.bind(this);
+		this.onUndoAll = this.onUndoAll.bind(this);
+		this.onSaveWorkingCheck = this.onSaveWorkingCheck.bind(this);
+		this.onDeleteCheck = this.onDeleteCheck.bind(this);
+		this.onCheckSelectedChanged = this.onCheckSelectedChanged.bind(this);
+		this.onWorkingCheckDataChange = this.onWorkingCheckDataChange.bind(this);
+
+		// Set up the "navigation actions" object that we can pass down to components so that call us up here
+		this.navActions = {};
+		this.navActions.onNewCheck = this.onNewCheck;
+		this.navActions.onNextCheck = this.onNextCheck;
+		this.navActions.onPrevCheck = this.onPrevCheck;
+		this.navActions.onUndoAll = this.onUndoAll;
+		this.navActions.onSaveWorkingCheck = this.onSaveWorkingCheck;
+		this.navActions.onDeleteCheck = this.onDeleteCheck;
+	}
+
+	onNewCheck() {
         // Set an empty check object into both the selected and working checks
         var emptyCheck = {id: 0, checkNumber: "5", targetID: 0};
         this.setState({
@@ -68,31 +86,31 @@ var CheckBook = React.createClass({
             "workingCheck": emptyCheck,
             "workingCheckDirty": false
         });
-    },
+    }
 
-	onNextCheck: function() {
+	onNextCheck() {
 		// Ask the check register for the next check
 		// This assumes that check register may have sorted the data, so we can't know what the next check in the
 		// register is without asking.
 		// We could also implement by sending an event and a callback to the check register
-		var nextCheck = this.refs.checkRegister.getNextCheck(this.state.selectedCheck.id);
+		var nextCheck = this.checkRegister.getNextCheck(this.state.selectedCheck.id);
 		if (nextCheck) {
 			this.onCheckSelectedChanged(nextCheck);
 		}
-	},
+	}
 
-	onPrevCheck: function () {
+	onPrevCheck() {
 		// Ask the check register for the previous check
 		// This assumes that check register may have sorted the data, so we can't know what the previous check in the
 		// register is without asking.
 		// We could also implement by sending an event and a callback to the check register
-		var prevCheck = this.refs.checkRegister.getPreviousCheck(this.state.selectedCheck.id);
+		var prevCheck = this.checkRegister.getPreviousCheck(this.state.selectedCheck.id);
 		if (prevCheck) {
 			this.onCheckSelectedChanged(prevCheck);
 		}
-	},
+	}
 
-	onUndoAll: function() {
+	onUndoAll() {
 		// Copy the selected check (which is unmodified) into the working copy
 		var updatedWorkingCheck = update(this.state.selectedCheck, {});
 
@@ -101,9 +119,9 @@ var CheckBook = React.createClass({
             "workingCheck": updatedWorkingCheck,
             "workingCheckDirty": false
         });
-	},
+	}
 
-	onSaveWorkingCheck: function() {
+	onSaveWorkingCheck() {
 		// (This will get moved into the data store object when I create that)
 
 		// See if there is a row with this ID already in the data array
@@ -133,9 +151,9 @@ var CheckBook = React.createClass({
 
 		// Tell the UI that we've changed selection to the new check
 		this.onCheckSelectedChanged(checkToSave);
-	},
+	}
 
-	onDeleteCheck: function(idToDelete) {
+	onDeleteCheck(idToDelete) {
 		// Find the specified row
 		var rowToDelete = -1;
 		for (var index = 0; index < this.checks.data.length; index++) {
@@ -159,12 +177,12 @@ var CheckBook = React.createClass({
 			// Tell the UI to refresh
 			this.setState({});
 		}
-	},
+	}
 
-	onCheckSelectedChanged: function(newSelection) {
+	onCheckSelectedChanged(newSelection) {
 		// Ask the check register whether this is the first row or the last row
-		var isFirstRow = this.refs.checkRegister.getIsFirstRow(newSelection.id);
-		var isLastRow = this.refs.checkRegister.getIsLastRow(newSelection.id);
+		var isFirstRow = this.checkRegister.getIsFirstRow(newSelection.id);
+		var isLastRow = this.checkRegister.getIsLastRow(newSelection.id);
 
 		// Set everything about the changed selection into the state in one call
 		this.setState({
@@ -176,9 +194,9 @@ var CheckBook = React.createClass({
 			"isFirstRow": isFirstRow,
 			"isLastRow": isLastRow
 		});
-	},
+	}
 
-	onWorkingCheckDataChange: function(propName, newValue) {
+	onWorkingCheckDataChange(propName, newValue) {
 		// We're passing in the affected property's name (that is, a string) and value, but for update() we need it to
 		// to be in a object.  So make a simple object with just that property and value only
 		var propChange = {};
@@ -192,21 +210,9 @@ var CheckBook = React.createClass({
 			"workingCheck": updatedWorkingCheck,
 			"workingCheckDirty": true
 		});
-	},
+	}
 
-	render: function() {
-		// Set up the navActions object on the first time through.  We need to do this here because the functions
-		// referenced here aren't defined earlier - even in getDefaultProps()
-		if (this.navActions === null) {
-			this.navActions = {};
-			this.navActions.onNewCheck = this.onNewCheck;
-			this.navActions.onNextCheck = this.onNextCheck;
-			this.navActions.onPrevCheck = this.onPrevCheck;
-			this.navActions.onUndoAll = this.onUndoAll;
-			this.navActions.onSaveWorkingCheck = this.onSaveWorkingCheck;
-			this.navActions.onDeleteCheck = this.onDeleteCheck;
-		}
-
+	render() {
 		return (
 			<div className="checkbook">
 				<div className="checkbook-topframe">
@@ -218,13 +224,12 @@ var CheckBook = React.createClass({
 					<div className="break"></div>
 				</div>
 				<CheckRegister checks={this.checks.data} targetAccounts={this.state.targetAccounts} account={this.state.account}
-					           ref="checkRegister" selectedID={this.state.selectedCheck.id}
+					           selectedID={this.state.selectedCheck.id} ref={ (checkRegister) => this.checkRegister = checkRegister }
 							   onCheckSelectedChanged={this.onCheckSelectedChanged}
 							   onDeleteCheck={this.navActions.onDeleteCheck}/>
 			</div>
 		)
 	}
 
-});
+};
 
-module.exports = CheckBook;

@@ -1,27 +1,21 @@
-/** @jsx React.DOM */
-var React = require("react");
-var ReactDOM = require("react-dom");
+import React, { Component } from "react";
+import ReactDOM from "react-dom";
 
-var CurrencyInput = React.createClass({
-    propTypes: {
-        allowNegatives: React.PropTypes.bool,
-        maxDecimalPlaces: React.PropTypes.number,
-        maxValue: React.PropTypes.number
-    },
 
-    getDefaultProps: function() {
-        return {
-            allowNegatives: true,
-            maxDecimalPlaces: 2,
-            maxValue: 999999999999.99
-        };
-    },
+export default class CurrencyInput extends Component {
 
-    onFocus: function(event) {
+    constructor() {
+        super();
+
+        // Manually bind the event handlers to this object, as ES6 classes won't automatically do this yet
+        this.onChange = this.onChange.bind(this);
+    }
+
+    onFocus(event) {
         // Strip out any separators and currency signs on entry
-    },
+    }
 
-    onChange: function(event) {
+    onChange(event) {
         // Save the current selection in this input field, in case we need set it back
         var selection  = {
             start: event.target.selectionStart,
@@ -81,13 +75,13 @@ var CurrencyInput = React.createClass({
         }
 
         event.preventDefault();
-    },
+    }
 
-    onBlur: function(event) {
+    onBlur(event) {
         // Add in any separators needed plus fill places past the decimal point with zeros
-    },
+    }
 
-    render: function() {
+    render() {
         var counter = 12;
         /* We could make this tag "type=number", but not all browsers support showing commas and
          decimal points in number inputs yet - plus you'll get the "up/down" scroll buttons, which
@@ -98,7 +92,22 @@ var CurrencyInput = React.createClass({
         )
     }
 
-});
+};
 
-module.exports = CurrencyInput;
+
+// Define propTypes and defaultProps as static members in ES6 so they can't be changed (immutable)
+CurrencyInput.propTypes =  {
+    allowNegatives: React.PropTypes.bool,
+    maxDecimalPlaces: React.PropTypes.number,
+    maxValue: React.PropTypes.number
+};
+
+CurrencyInput.defaultProps = {
+    allowNegatives: true,
+    maxDecimalPlaces: 2,
+    maxValue: 999999999999.99
+}
+
+
+
 

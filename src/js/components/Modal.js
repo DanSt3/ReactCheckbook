@@ -1,28 +1,31 @@
-/** @jsx React.DOM */
-var React = require("react");
-var ReactDOM = require("react-dom");
+import React, { Component } from "react";
+import ReactDOM from "react-dom";
 
 
-var Modal = React.createClass({
+export default class Modal extends Component {
 
-    getInitialState: function() {
-        return {"shown": false};
-    },
+    constructor() {
+        super();
+        this.state = {"shown": false};
 
-    eatClicks: function(event) {
+        // Manually bind the event handlers to this object, as ES6 classes won't automatically do this yet
+        this.eatClicks = this.eatClicks.bind(this);
+    }
+
+    eatClicks(event) {
         // Don't let clicks propagate back to other elements!
         event.stopPropagation();
-    },
+    }
 
-    showModal: function() {
+    showModal() {
         this.setState({"shown": true});
-    },
+    }
 
-    hideModal: function() {
+    hideModal() {
         this.setState({"shown": false});
-    },
+    }
 
-    render: function() {
+    render() {
         return (
             (this.state.shown) ?
                 <div className="modal-backdrop" onClick={this.eatClicks}>
@@ -33,6 +36,6 @@ var Modal = React.createClass({
                 <div/>
         );
     }
-});
 
-module.exports = Modal;
+};
+

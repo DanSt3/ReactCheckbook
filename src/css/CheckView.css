@@ -1,6 +1,6 @@
 @font-face {
     font-family: MICR;
-    src: url('../fonts/MICR Encoding.ttf') format('truetype');
+    src: url('../fonts/MICR_Encoding.ttf') format('truetype');
 }
 
 .check-main {

@@ -1,46 +1,42 @@
-/** @jsx React.DOM */
-var React = require("react");
-var ReactDOM = require("react-dom");
+import React, { Component } from "react";
+import ReactDOM from "react-dom";
 
-var Modal = require("./Modal.js");
+import Modal from "./Modal.js";
 
 
-var Confirm = React.createClass({
+export default class Confirm extends Component {
 
-    portalElement: null,
-    modal: null,
+    constructor() {
+        super();
+        this.portalElement = null;
+        this.modal = null;
 
-    getDefaultProps: function() {
-        return {
-            "bannerText": "",
-            "msgText": "Are you sure you want to do this?",
-            "okMsg": "OK",
-            "cancelMsg": "Cancel",
-        }
-    },
+        // Manually bind the event handlers to this object, as ES6 classes won't automatically do this yet
+        this.hideConfirm = this.hideConfirm.bind(this);
+        this.fireAction = this.fireAction.bind(this);
+    }
 
-    showConfirm: function(action) {
+    showConfirm(action) {
         this.setState({"action": action});
         this.modal.showModal();
-    },
+    }
 
-    hideConfirm: function() {
+    hideConfirm() {
         this.modal.hideModal();
-    },
+    }
 
-    fireAction: function() {
+    fireAction() {
         if (this.state.action) {
             this.state.action();
         }
         this.hideConfirm();
-    },
+    }
 
-
-    render: function() {
+    render() {
         return null;
-    },
+    }
 
-    componentDidMount: function() {
+    componentDidMount() {
         var p = this.props.portalId && document.getElementById(this.props.portalId);
         if (!p) {
             var p = document.createElement('div');
@@ -52,13 +48,13 @@ var Confirm = React.createClass({
 
         this.portalElement = p;
         this.componentDidUpdate();
-    },
+    }
 
-    componentWillUnmount: function() {
+    componentWillUnmount() {
         document.body.removeChild(this.portalElement);
-    },
+    }
 
-    componentDidUpdate: function() {
+    componentDidUpdate() {
         this.modal = ReactDOM.render(
             <Modal>
                 <div className="banner">{this.props.bannerText}</div>
@@ -71,6 +67,13 @@ var Confirm = React.createClass({
             this.portalElement
         );
     }
-});
 
-module.exports = Confirm;
+};
+
+// Define propTypes and defaultProps as static members is ES6 so they can't be changed (immutable)
+Confirm.defaultProps = {
+    "bannerText": "",
+    "msgText": "Are you sure you want to do this?",
+    "okMsg": "OK",
+    "cancelMsg": "Cancel",
+};

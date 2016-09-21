@@ -1,35 +1,39 @@
-/** @jsx React.DOM */
-var React = require("react");
-var ReactDOM = require("react-dom");
-var classNames = require("classnames");
-var Confirm = require("./Confirm.js");
+import React, { Component } from "react";
+import ReactDOM from "react-dom";
 
-var CheckRegister = React.createClass({
+import classNames from "classnames";
+import Confirm from "./Confirm.js";
 
-    runningBalance: 0.0,
 
-	toDollarFormat: function(amount) {
+export default class CheckRegister extends Component {
+
+	constructor() {
+		super();
+		this.runningBalance = 0.0;
+	}
+
+	toDollarFormat(amount) {
 		return amount.toFixed(2).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
-	},
+	}
 
 	onClick(checkSelected, rowIndexSelected) {
         this.props.onCheckSelectedChanged(checkSelected);
-    },
+    }
 
 	onDeleteClick(check, event) {
 		// Keep the click event from doing a row select after the delete
 		event.stopPropagation();
 
 		// Confirm that the user wants to delete this check - if so, ask the parent to delete it
-        this.refs.confirm.showConfirm(this.props.onDeleteCheck.bind(null, check.id));
+        this.confirmDlg.showConfirm(this.props.onDeleteCheck.bind(null, check.id));
 
 /*		if (confirm("Are you sure you want to delete this check")) {
 			console.log("Delete confirmed!");
 			this.props.onDeleteCheck(check.id);
 		}*/
-	},
+	}
 
-    getNextCheck: function(id) {
+    getNextCheck(id) {
         var nextCheck = null;
 
         var checks = this.props.checks;
@@ -51,9 +55,9 @@ var CheckRegister = React.createClass({
         }
 
         return nextCheck;
-    },
+    }
 
-    getPreviousCheck: function(id) {
+    getPreviousCheck(id) {
         var prevCheck = null;
 
         var checks = this.props.checks;
@@ -75,20 +79,20 @@ var CheckRegister = React.createClass({
         }
 
         return prevCheck;
-    },
+    }
 
-	getIsFirstRow: function(id) {
+	getIsFirstRow(id) {
 		// Return true is this is the first row, or if the table is empty
 		return ((this.props.checks.length === 0)  || (this.props.checks[0].id === id));
-	},
+	}
 
-	getIsLastRow: function(id) {
+	getIsLastRow(id) {
 		// Return true is this is the last row, or if the table is empty
 		var lastRowIndex = this.props.checks.length - 1;
 		return ((this.props.checks.length === 0)  || (this.props.checks[lastRowIndex].id === id));
-	},
+	}
 
-	render: function() {
+	render() {
 
 		var that = this;
         this.runningBalance = this.props.account.openingBalance;
@@ -143,11 +147,11 @@ var CheckRegister = React.createClass({
 						{checkRows}
 					</tbody>
 				</table>
-				<Confirm ref="confirm" bannerText="Confirmation" msgText="Are you sure you want to delete this row?" />
+				<Confirm ref={ (confirmDlg) => this.confirmDlg = confirmDlg } bannerText="Confirmation" msgText="Are you sure you want to delete this row?" />
 			</div>
 		)
 	}
 
-});
+};
 
-module.exports = CheckRegister;
+
