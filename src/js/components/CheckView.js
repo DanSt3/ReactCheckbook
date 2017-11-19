@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import ReactDOM from "react-dom";
 
 import CurrencyInput  from "./CurrencyInput";
+import DateSelectDialog from "./DateSelectDialog";
 
 
 export default class CheckView extends Component {
@@ -23,7 +24,11 @@ export default class CheckView extends Component {
     }
 
     onDataChange(propName, event) {
-      this.props.onCheckDataChange(propName, event.target.value);
+        this.props.onCheckDataChange(propName, event.target.value);
+    }
+
+    onDateClicked() {
+        this.dateSelectDlg.showDateSelectDialog();
     }
 
     onNumberChange(propName, event) {
@@ -65,7 +70,8 @@ export default class CheckView extends Component {
 
                     <div className="check-date-box break">
                         <label htmlFor="check-date">Date</label>
-                        <input type="text" className="check-date" id="check-date" value={check.date} onChange={this.onDataChange.bind(this, "date")}/>
+                        <input type="text" className="check-date" id="check-date" value={check.date} onChange={this.onDataChange.bind(this, "date")}
+                               onClick={this.onDateClicked.bind(this)}/>
                     </div>
                 </div>
 
@@ -126,7 +132,7 @@ export default class CheckView extends Component {
                         </div>
                     </div>
                 </div>
-
+                <DateSelectDialog ref={ (dateSelectDlg) => this.dateSelectDlg = dateSelectDlg } />
             </form>
         )
     }

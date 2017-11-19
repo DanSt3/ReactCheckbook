@@ -63,6 +63,7 @@ export default class Confirm extends Component {
                     <button className="cancel-btn" onClick={this.hideConfirm}>{this.props.cancelMsg}</button>
                     <button className="ok-btn" onClick={this.fireAction}>{this.props.okMsg}</button>
                 </div>
+                <div className="bottom-spacer"></div>
             </Modal>,
             this.portalElement
         );

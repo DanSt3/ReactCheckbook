@@ -7,6 +7,8 @@ export default class Modal extends Component {
     constructor() {
         super();
         this.state = {"shown": false};
+        this.portalElement = null;
+        this.modal = null;
 
         // Manually bind the event handlers to this object, as ES6 classes won't automatically do this yet
         this.eatClicks = this.eatClicks.bind(this);

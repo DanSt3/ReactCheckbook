@@ -97,7 +97,7 @@ export default class CheckRegister extends Component {
 		var that = this;
         this.runningBalance = this.props.account.openingBalance;
 
-	    var checkRows = this.props.checks.map(function(check, rowIndex) {
+	    let checkRows = this.props.checks.map((check, rowIndex) => {
             that.runningBalance -= check.amount;
             var newBalance = that.runningBalance;
 

@@ -1,0 +1,34 @@
+.date-selector-dialog {
+}
+
+/* Using the component's main class to namespace the remaining styles so they don't collide if another component has a
+   style with the same name */
+
+.date-selector-dialog .date-selector-table {
+    width: 100%;
+    outline: 1px solid black;
+    border-collapse: collapse;
+}
+
+.date-selector-dialog .date-selector-table th,
+.date-selector-dialog .date-selector-table td {
+    width: 15%;     /* total adds up to 105%, but that's okay because we want relative */
+}
+
+.date-selector-dialog .date-selector-prev-month,
+.date-selector-dialog .date-selector-next-month {
+}
+
+.date-selector-dialog .date-selector-month-label {
+}
+
+.date-selector-dialog .date-selector-day-other-month {
+    color: lightgray;
+    text-align: center;
+}
+
+.date-selector-dialog .date-selector-day-this-month {
+    text-align: center;
+    font-weight: bold;
+}
+
